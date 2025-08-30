@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TEAM ARUN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @font-face {
+        font-family: "HeadingFont";
+        src: url("/heading.otf") format("opentype");
+      }
+      @font-face {
+        font-family: "BodyFont";
+        src: url("/Exo-Regular.ttf") format("truetype");
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "space-dark": "#020617",
+              "space-blue": "#0f172a",
+              "space-light": "#cbd5e1",
+              "accent-cyan": "#22d3ee",
+              "accent-magenta": "#f472b6",
+              "slate-600": "#475569",
+              "slate-700": "#334155",
+            },
+            fontFamily: {
+              sans: ["BodyFont", "sans-serif"],
+              heading: ["HeadingFont", "sans-serif"],
+            },
+            animation: {
+              "flyby-notification":
+                "flyby-notification-animation 4s ease-in-out forwards",
+            },
+            keyframes: {
+              "flyby-notification-animation": {
+                "0%": {
+                  opacity: "0",
+                  transform: "scale(0.8) translateY(20px)",
+                },
+                "15%": { opacity: "1", transform: "scale(1.05) translateY(0)" },
+                "85%": { opacity: "1", transform: "scale(1) translateY(0)" },
+                "100%": {
+                  opacity: "0",
+                  transform: "scale(0.9) translateY(-10px)",
+                },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://aistudiocdn.com/react@^19.1.1",
+          "react-dom/": "https://aistudiocdn.com/react-dom@^19.1.1/",
+          "react/": "https://aistudiocdn.com/react@^19.1.1/",
+          "three": "https://aistudiocdn.com/three@^0.179.1",
+          "@react-three/fiber": "https://aistudiocdn.com/@react-three/fiber@^9.3.0",
+          "@react-three/drei": "https://aistudiocdn.com/@react-three/drei@^10.7.4",
+          "zustand": "https://aistudiocdn.com/zustand@^4.5.4"
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body class="bg-space-dark">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
