@@ -268,8 +268,8 @@ const App: React.FC = () => {
   // Background music effect
   useEffect(() => {
     if (!showLoadingScreen) {
-        bgmAudioRef.current = new Audio('/bgm.mp3');
-        bgmAudioRef.current.volume = 0.4;
+        bgmAudioRef.current = new Audio('/bgm2.mp3');
+        bgmAudioRef.current.volume = 1;
         bgmAudioRef.current.loop = true;
         bgmAudioRef.current.play().catch(e => console.error("BGM play failed:", e));
     }
