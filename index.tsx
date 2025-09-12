@@ -1,7 +1,11 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import TeamMembers from './pages/TeamMembers';
+import ProjectDescription from './pages/ProjectDescription';
+import './index.css';
 
 const rootElement = document.getElementById('root');
 if (!rootElement) {
@@ -11,6 +15,12 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/team" element={<TeamMembers />} />
+        <Route path="/about" element={<ProjectDescription />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
