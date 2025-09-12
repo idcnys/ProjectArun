@@ -725,24 +725,15 @@ interface SunspotManagerProps {
   sunRef: React.RefObject<THREE.Group>;
   sunRadius: number;
   isPaused: boolean;
-<<<<<<< HEAD
   timeScale: number;
-=======
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
   probeRef: React.RefObject<THREE.Group>;
   onSunspotsUpdate: (spots: SunspotData[]) => void;
 }
 
-<<<<<<< HEAD
 const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPaused, timeScale, probeRef, onSunspotsUpdate }) => {
   const activeSunspotsRef = React.useRef<SunspotData[]>([]);
   const simulationTimeRef = React.useRef(0); // Track simulation time separately
   const { setSunspotProbability, setActiveSunspotCount, setSolarPhase } = useSimulationStore.getState();
-=======
-const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPaused, probeRef, onSunspotsUpdate }) => {
-  const activeSunspotsRef = React.useRef<SunspotData[]>([]);
-  const { setSunspotProbability } = useSimulationStore.getState();
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
   
   const sunspotTexture = React.useMemo(() => {
     const canvas = document.createElement('canvas');
@@ -751,7 +742,6 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
     const context = canvas.getContext('2d');
     if (!context) return null;
 
-<<<<<<< HEAD
     const centerX = 64;
     const centerY = 64;
     
@@ -773,15 +763,6 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
     umbraGradient.addColorStop(1, 'rgba(60, 60, 60, 0.9)'); // Transition to penumbra
     
     context.fillStyle = umbraGradient;
-=======
-    // A radial gradient from solid black to transparent black to create a soft-edged spot,
-    // which will be more visible against the bright sun texture.
-    const gradient = context.createRadialGradient(64, 64, 48, 64, 64, 64);
-    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.9)');
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-    context.fillStyle = gradient;
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     context.fillRect(0, 0, 128, 128);
     
     const texture = new THREE.CanvasTexture(canvas);
@@ -799,17 +780,13 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
         });
       }
       activeSunspotsRef.current = [];
-<<<<<<< HEAD
       setActiveSunspotCount(0);
-=======
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     };
   }, [sunRef]);
 
   useFrame((state, delta) => {
     if (isPaused || !sunRef.current) return;
     const cappedDelta = Math.min(delta, 1 / 30);
-<<<<<<< HEAD
     
     // Update simulation time based on time scale
     simulationTimeRef.current += cappedDelta * timeScale;
@@ -851,11 +828,6 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
     }
 
     let spawnProbability = baseSpawnProbability;
-=======
-    const time = state.clock.getElapsedTime();
-
-    let spawnProbability = 0.005; 
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     const maxEffectDistance = 15.0; 
     const perihelionDistance = 1.2;
 
@@ -863,16 +835,11 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
       const distanceToSun = probeRef.current.position.distanceTo(sunRef.current.position);
       if (distanceToSun < maxEffectDistance) {
         const closeness = 1.0 - THREE.MathUtils.clamp((distanceToSun - perihelionDistance) / (maxEffectDistance - perihelionDistance), 0, 1);
-<<<<<<< HEAD
         spawnProbability += closeness * 0.02; // Moderate increase when probe is close
-=======
-        spawnProbability += closeness * 0.05;
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
       }
     }
 
     setSunspotProbability(spawnProbability);
-<<<<<<< HEAD
     setSolarPhase(currentPhase);
 
     if (Math.random() < spawnProbability) {
@@ -904,42 +871,18 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
         side: THREE.FrontSide, // Only front side needed
         blending: THREE.MultiplyBlending, // Multiply to darken the sun surface
         opacity: 1.0, // Start fully opaque
-=======
-
-    if (Math.random() < spawnProbability) {
-      const randomDirection = new THREE.Vector3().randomDirection();
-      const position = randomDirection.clone().multiplyScalar(sunRadius * 1.001);
-
-      const maxAge = THREE.MathUtils.randFloat(15, 45);
-      const maxSize = THREE.MathUtils.randFloat(0.2, 0.6);
-
-      const geometry = new THREE.CircleGeometry(1, 32);
-      const material = new THREE.MeshBasicMaterial({
-        map: sunspotTexture,
-        transparent: true,
-        depthWrite: false,
-        toneMapped: false,
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
       });
       const mesh = new THREE.Mesh(geometry, material);
       
       mesh.position.copy(position);
-<<<<<<< HEAD
       // Orient the sunspot to face away from the sun center (outward)
       mesh.lookAt(position.clone().multiplyScalar(2));
       mesh.renderOrder = 10; // Higher render order to ensure it's drawn on top
-=======
-      mesh.lookAt(sunRef.current.position);
-      mesh.renderOrder = 2; // Render sunspots after the glow effect
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
 
       sunRef.current.add(mesh);
       activeSunspotsRef.current.push({ mesh, age: 0, maxAge, maxSize });
       onSunspotsUpdate(activeSunspotsRef.current.slice());
-<<<<<<< HEAD
       setActiveSunspotCount(activeSunspotsRef.current.length);
-=======
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     }
 
     let didUpdate = false;
@@ -958,7 +901,6 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
 
       const lifecycleProgress = spot.age / spot.maxAge;
       
-<<<<<<< HEAD
       // More visible sunspot lifecycle with clearer decay
       let sizeMultiplier = 1.0;
       let opacityMultiplier = 1.0;
@@ -1005,23 +947,11 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
         (spot.mesh.material as THREE.MeshBasicMaterial).opacity = opacityMultiplier;
         (spot.mesh.material as THREE.MeshBasicMaterial).color.setRGB(1, 1, 1);
       }
-=======
-      const baseScale = spot.maxSize * Math.sin(Math.PI * lifecycleProgress);
-      const shimmer = 1.0 + 0.08 * Math.sin(time * 5 + i);
-      spot.mesh.scale.set(baseScale * shimmer, baseScale * shimmer, 1);
-
-      const baseOpacity = Math.sin(Math.PI * lifecycleProgress);
-      const pulse = 0.8 + 0.2 * Math.sin(time * 3 + i);
-      (spot.mesh.material as THREE.MeshBasicMaterial).opacity = baseOpacity * pulse;
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     }
 
     if (didUpdate) {
       onSunspotsUpdate(activeSunspotsRef.current.slice());
-<<<<<<< HEAD
       setActiveSunspotCount(activeSunspotsRef.current.length);
-=======
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     }
   });
 
@@ -1197,10 +1127,7 @@ const Sun: React.FC<SunProps> = React.memo(({ sunRef, sunRadius, isPaused, timeS
                     sunRef={sunRef} 
                     sunRadius={sunRadius}
                     isPaused={isPaused} 
-<<<<<<< HEAD
                     timeScale={timeScale}
-=======
->>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
                     probeRef={probeRef}
                     onSunspotsUpdate={onSunspotsUpdate}
                 />
