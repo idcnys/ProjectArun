@@ -12,32 +12,34 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     id: 1,
-    name: 'Bitto Saha',
-    role: 'Project Lead, Developer',
-    bio: 'CSE (first year), Rajshahi University of Engineering & Technology',
-    imageUrl: '/team/bitto-saha.jpg'
-  },
-  {
-    id: 2,
     name: 'Morchalin Ahmed Amio',
     role: 'Data Analyst, Developer',
     bio: 'CSE (first year), Rajshahi University of Engineering & Technology',
     imageUrl: '/team/jane-smith.jpg'
   },
   {
-    id: 3,
-    name: 'Shuvo',
-    role: 'Resource management',
+    id: 2,
+    name: 'Bitto Saha',
+    role: 'Project Lead, Developer',
     bio: 'CSE (first year), Rajshahi University of Engineering & Technology',
-    imageUrl: '/team/alex-johnson.jpg'
+    imageUrl: '/team/bitto-saha.jpg'
   },
+  
   {
-    id: 4,
+    id: 3,
     name: 'Fazle Rabbi',
     role: 'Data Analyst, Developer',
     bio: 'CSE (first year), Rajshahi University of Engineering & Technology',
     imageUrl: '/team/maria-garcia.jpg'
   },
+  {
+    id: 4,
+    name: 'Shuvo',
+    role: 'Resource management',
+    bio: 'CSE (first year), Rajshahi University of Engineering & Technology',
+    imageUrl: '/team/alex-johnson.jpg'
+  },
+  
   {
     id: 5,
     name: 'Nilay Paul',
