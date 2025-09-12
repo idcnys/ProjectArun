@@ -725,13 +725,15 @@ interface SunspotManagerProps {
   sunRef: React.RefObject<THREE.Group>;
   sunRadius: number;
   isPaused: boolean;
+  timeScale: number;
   probeRef: React.RefObject<THREE.Group>;
   onSunspotsUpdate: (spots: SunspotData[]) => void;
 }
 
-const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPaused, probeRef, onSunspotsUpdate }) => {
+const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPaused, timeScale, probeRef, onSunspotsUpdate }) => {
   const activeSunspotsRef = React.useRef<SunspotData[]>([]);
-  const { setSunspotProbability } = useSimulationStore.getState();
+  const simulationTimeRef = React.useRef(0); // Track simulation time separately
+  const { setSunspotProbability, setActiveSunspotCount, setSolarPhase } = useSimulationStore.getState();
   
   const sunspotTexture = React.useMemo(() => {
     const canvas = document.createElement('canvas');
@@ -740,13 +742,27 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
     const context = canvas.getContext('2d');
     if (!context) return null;
 
-    // A radial gradient from solid black to transparent black to create a soft-edged spot,
-    // which will be more visible against the bright sun texture.
-    const gradient = context.createRadialGradient(64, 64, 48, 64, 64, 64);
-    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.9)');
-    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-    context.fillStyle = gradient;
+    const centerX = 64;
+    const centerY = 64;
+    
+    // Create realistic sunspot with umbra (dark center) and penumbra (lighter outer region)
+    
+    // Penumbra (outer lighter region) - grayish
+    const penumbraGradient = context.createRadialGradient(centerX, centerY, 35, centerX, centerY, 64);
+    penumbraGradient.addColorStop(0, 'rgba(80, 80, 80, 1.0)'); // Dark gray
+    penumbraGradient.addColorStop(0.7, 'rgba(120, 120, 120, 0.8)'); // Lighter gray
+    penumbraGradient.addColorStop(1, 'rgba(255, 255, 255, 0)'); // Fade to transparent
+    
+    context.fillStyle = penumbraGradient;
+    context.fillRect(0, 0, 128, 128);
+    
+    // Umbra (dark center) - nearly black
+    const umbraGradient = context.createRadialGradient(centerX, centerY, 0, centerX, centerY, 25);
+    umbraGradient.addColorStop(0, 'rgba(0, 0, 0, 1.0)'); // Pure black center
+    umbraGradient.addColorStop(0.8, 'rgba(20, 20, 20, 1.0)'); // Very dark
+    umbraGradient.addColorStop(1, 'rgba(60, 60, 60, 0.9)'); // Transition to penumbra
+    
+    context.fillStyle = umbraGradient;
     context.fillRect(0, 0, 128, 128);
     
     const texture = new THREE.CanvasTexture(canvas);
@@ -764,15 +780,54 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
         });
       }
       activeSunspotsRef.current = [];
+      setActiveSunspotCount(0);
     };
   }, [sunRef]);
 
   useFrame((state, delta) => {
     if (isPaused || !sunRef.current) return;
     const cappedDelta = Math.min(delta, 1 / 30);
-    const time = state.clock.getElapsedTime();
+    
+    // Update simulation time based on time scale
+    simulationTimeRef.current += cappedDelta * timeScale;
+    
+    // Calculate solar phase based on simulation time (not real time!)
+    // Real solar cycle is ~11 years, we simulate it as 4 minutes at 1x speed
+    const solarCycleLength = 240; // 4 minutes at 1x speed
+    const cycleProgress = (simulationTimeRef.current % solarCycleLength) / solarCycleLength;
+    const sunspotCount = activeSunspotsRef.current.length;
+    
+    let currentPhase: 'Solar Minimum' | 'Rising Activity' | 'Solar Maximum' | 'Declining Activity';
+    
+    if (cycleProgress < 0.1 || cycleProgress > 0.9) {
+      currentPhase = 'Solar Minimum';
+    } else if (cycleProgress < 0.4) {
+      currentPhase = 'Rising Activity';
+    } else if (cycleProgress < 0.6) {
+      currentPhase = 'Solar Maximum';
+    } else {
+      currentPhase = 'Declining Activity';
+    }
+    
+    // Adjust base spawn probability based on solar phase
+    let baseSpawnProbability = 0.002; // Very low baseline
+    
+    switch (currentPhase) {
+      case 'Solar Minimum':
+        baseSpawnProbability = 0.001; // Very few sunspots
+        break;
+      case 'Rising Activity':
+        baseSpawnProbability = 0.005; // Increasing activity
+        break;
+      case 'Solar Maximum':
+        baseSpawnProbability = 0.012; // Peak activity
+        break;
+      case 'Declining Activity':
+        baseSpawnProbability = 0.006; // Decreasing activity
+        break;
+    }
 
-    let spawnProbability = 0.005; 
+    let spawnProbability = baseSpawnProbability;
     const maxEffectDistance = 15.0; 
     const perihelionDistance = 1.2;
 
@@ -780,35 +835,54 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
       const distanceToSun = probeRef.current.position.distanceTo(sunRef.current.position);
       if (distanceToSun < maxEffectDistance) {
         const closeness = 1.0 - THREE.MathUtils.clamp((distanceToSun - perihelionDistance) / (maxEffectDistance - perihelionDistance), 0, 1);
-        spawnProbability += closeness * 0.05;
+        spawnProbability += closeness * 0.02; // Moderate increase when probe is close
       }
     }
 
     setSunspotProbability(spawnProbability);
+    setSolarPhase(currentPhase);
 
     if (Math.random() < spawnProbability) {
-      const randomDirection = new THREE.Vector3().randomDirection();
-      const position = randomDirection.clone().multiplyScalar(sunRadius * 1.001);
+      // Generate sunspots at realistic solar latitudes (not randomly across the surface)
+      // Real sunspots appear between 30-40° latitude and migrate toward equator
+      const solarLatitude = THREE.MathUtils.randFloat(-40, 40) * (Math.PI / 180); // ±40 degrees
+      const solarLongitude = THREE.MathUtils.randFloat(0, 2 * Math.PI); // Any longitude
+      
+      // Convert spherical coordinates to 3D position
+      const x = Math.cos(solarLatitude) * Math.cos(solarLongitude);
+      const y = Math.sin(solarLatitude);
+      const z = Math.cos(solarLatitude) * Math.sin(solarLongitude);
+      
+      const position = new THREE.Vector3(x, y, z).multiplyScalar(sunRadius * 1.005);
 
-      const maxAge = THREE.MathUtils.randFloat(15, 45);
-      const maxSize = THREE.MathUtils.randFloat(0.2, 0.6);
+      // More realistic and observable sunspot lifetimes
+      const maxAge = THREE.MathUtils.randFloat(30, 100); // 30-100 seconds for better observation
+      
+      // Make sunspots more visible with better size range
+      const maxSize = THREE.MathUtils.randFloat(0.01, 0.08); // More moderate size for better visibility
 
-      const geometry = new THREE.CircleGeometry(1, 32);
+      const geometry = new THREE.CircleGeometry(1, 24); // Fewer segments for smaller objects
       const material = new THREE.MeshBasicMaterial({
         map: sunspotTexture,
-        transparent: true,
+        transparent: true, // Keep transparent for opacity control during lifecycle
         depthWrite: false,
+        depthTest: false,
         toneMapped: false,
+        side: THREE.FrontSide, // Only front side needed
+        blending: THREE.MultiplyBlending, // Multiply to darken the sun surface
+        opacity: 1.0, // Start fully opaque
       });
       const mesh = new THREE.Mesh(geometry, material);
       
       mesh.position.copy(position);
-      mesh.lookAt(sunRef.current.position);
-      mesh.renderOrder = 2; // Render sunspots after the glow effect
+      // Orient the sunspot to face away from the sun center (outward)
+      mesh.lookAt(position.clone().multiplyScalar(2));
+      mesh.renderOrder = 10; // Higher render order to ensure it's drawn on top
 
       sunRef.current.add(mesh);
       activeSunspotsRef.current.push({ mesh, age: 0, maxAge, maxSize });
       onSunspotsUpdate(activeSunspotsRef.current.slice());
+      setActiveSunspotCount(activeSunspotsRef.current.length);
     }
 
     let didUpdate = false;
@@ -827,17 +901,57 @@ const SunspotManager: React.FC<SunspotManagerProps> = ({ sunRef, sunRadius, isPa
 
       const lifecycleProgress = spot.age / spot.maxAge;
       
-      const baseScale = spot.maxSize * Math.sin(Math.PI * lifecycleProgress);
-      const shimmer = 1.0 + 0.08 * Math.sin(time * 5 + i);
-      spot.mesh.scale.set(baseScale * shimmer, baseScale * shimmer, 1);
-
-      const baseOpacity = Math.sin(Math.PI * lifecycleProgress);
-      const pulse = 0.8 + 0.2 * Math.sin(time * 3 + i);
-      (spot.mesh.material as THREE.MeshBasicMaterial).opacity = baseOpacity * pulse;
+      // More visible sunspot lifecycle with clearer decay
+      let sizeMultiplier = 1.0;
+      let opacityMultiplier = 1.0;
+      
+      if (lifecycleProgress < 0.15) {
+        // Formation phase: grow from 0 to full size over 15% of lifetime
+        const formationProgress = lifecycleProgress / 0.15;
+        sizeMultiplier = formationProgress * formationProgress; // Quadratic growth
+        opacityMultiplier = formationProgress;
+      } else if (lifecycleProgress < 0.7) {
+        // Stable phase: maintain size with slight natural variation for 55% of lifetime
+        const variation = 0.95 + 0.1 * Math.sin(simulationTimeRef.current * 0.3 + i); // More noticeable variation
+        sizeMultiplier = variation;
+        opacityMultiplier = 1.0;
+      } else {
+        // Decay phase: visibly shrink and fade over final 30% of lifetime
+        const decayProgress = (lifecycleProgress - 0.7) / 0.3;
+        const decayFactor = 1.0 - (decayProgress * decayProgress * decayProgress); // Cubic decay for visible effect
+        sizeMultiplier = decayFactor;
+        opacityMultiplier = Math.max(decayFactor, 0.1); // Don't fade completely to keep them visible
+        
+        // Debug: Log decay progress occasionally
+        if (Math.random() < 0.01) { // 1% chance to log
+          console.log(`Sunspot ${i} decaying: ${(decayProgress * 100).toFixed(1)}% complete, size: ${(sizeMultiplier * 100).toFixed(1)}%`);
+        }
+      }
+      
+      const finalSize = spot.maxSize * sizeMultiplier;
+      spot.mesh.scale.set(finalSize, finalSize, 1);
+      
+      // Make decay more visible by enhancing the contrast
+      if (lifecycleProgress >= 0.7) {
+        // In decay phase, make the sunspot more obviously fading
+        const material = spot.mesh.material as THREE.MeshBasicMaterial;
+        material.opacity = opacityMultiplier;
+        
+        // Add a slight red tint during decay to make it more obvious
+        const decayProgress = (lifecycleProgress - 0.7) / 0.3;
+        const originalColor = new THREE.Color(1, 1, 1);
+        const decayColor = new THREE.Color(1, 0.8, 0.8); // Slight reddish tint
+        material.color.lerpColors(originalColor, decayColor, decayProgress * 0.3);
+      } else {
+        // Normal appearance
+        (spot.mesh.material as THREE.MeshBasicMaterial).opacity = opacityMultiplier;
+        (spot.mesh.material as THREE.MeshBasicMaterial).color.setRGB(1, 1, 1);
+      }
     }
 
     if (didUpdate) {
       onSunspotsUpdate(activeSunspotsRef.current.slice());
+      setActiveSunspotCount(activeSunspotsRef.current.length);
     }
   });
 
@@ -1013,6 +1127,7 @@ const Sun: React.FC<SunProps> = React.memo(({ sunRef, sunRadius, isPaused, timeS
                     sunRef={sunRef} 
                     sunRadius={sunRadius}
                     isPaused={isPaused} 
+                    timeScale={timeScale}
                     probeRef={probeRef}
                     onSunspotsUpdate={onSunspotsUpdate}
                 />

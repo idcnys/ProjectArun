@@ -9,13 +9,68 @@ export const AnalyticsGraph: React.FC = () => {
     const {
         sunspotProbability,
         footpointDistance,
+        activeSunspotCount,
+        solarPhase,
         orbitalPerihelionData
     } = useThrottledStore(state => ({
         sunspotProbability: state.sunspotProbability,
         footpointDistance: state.probeFootpointDistanceToSunspot,
+        activeSunspotCount: state.activeSunspotCount,
+        solarPhase: state.solarPhase,
         orbitalPerihelionData: state.orbitalPerihelionData,
     }), 100);
 
+  // Get current time scale from the Controls component (we'll need to pass this down or store it)
+  // For now, we'll calculate the estimated cycle time based on standard 4 minutes at 1x
+  const baseCycleMinutes = 4;
+
+  // Helper function to get phase color and progress
+  const getPhaseInfo = (phase: string) => {
+    switch (phase) {
+      case 'Solar Minimum':
+        return { 
+          color: 'text-blue-400', 
+          bgColor: 'bg-gradient-to-r from-blue-500 to-blue-600', 
+          progress: 15, 
+          description: 'Minimal sunspot activity, quiet solar conditions',
+          icon: '🌑'
+        };
+      case 'Rising Activity':
+        return { 
+          color: 'text-yellow-400', 
+          bgColor: 'bg-gradient-to-r from-blue-500 via-yellow-500 to-orange-500', 
+          progress: 45, 
+          description: 'Increasing solar activity, more sunspots forming',
+          icon: '🌤️'
+        };
+      case 'Solar Maximum':
+        return { 
+          color: 'text-red-400', 
+          bgColor: 'bg-gradient-to-r from-orange-500 via-red-500 to-red-600', 
+          progress: 100, 
+          description: 'Peak sunspot activity, maximum solar flares',
+          icon: '☀️'
+        };
+      case 'Declining Activity':
+        return { 
+          color: 'text-orange-400', 
+          bgColor: 'bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500', 
+          progress: 75, 
+          description: 'Decreasing solar activity, fewer sunspots',
+          icon: '🌅'
+        };
+      default:
+        return { 
+          color: 'text-gray-400', 
+          bgColor: 'bg-gray-400', 
+          progress: 0, 
+          description: 'Unknown phase',
+          icon: '❓'
+        };
+    }
+  };
+
+  const phaseInfo = getPhaseInfo(solarPhase);
   const probPercentage = (sunspotProbability / MAX_PROBABILITY_FOR_UI) * 100;
 
   const distanceKm = footpointDistance !== null ? footpointDistance * SIMULATION_DISTANCE_SCALE : null;
@@ -125,20 +180,69 @@ export const AnalyticsGraph: React.FC = () => {
     <div className="absolute top-0 right-0 z-20 bg-space-blue/80 backdrop-blur-xs p-4 rounded-lg shadow-2xl w-72 text-space-light font-sans border border-slate-700/80">
       <h2 className="text-lg font-bold text-accent-cyan mb-3 text-center font-heading">Parker Probe Analytics</h2>
       
-{/*       <div className="space-y-4"> */}
-        {/* Sunspot-Footpoint overlapping chance */}
-{/*         <div>
+      <div className="space-y-4">
+        {/* Solar Phase Indicator */}
+        <div>
+          <div className="flex justify-between items-center mb-1">
+            <label className="text-sm font-medium text-space-light/80">
+              Solar Cycle Phase
+            </label>
+            <div className="flex items-center space-x-2">
+              <span className="text-lg">{phaseInfo.icon}</span>
+              <span className={`text-sm font-bold tabular-nums ${phaseInfo.color}`}>
+                {solarPhase}
+              </span>
+            </div>
+          </div>
+          <div className="w-full bg-space-dark/70 rounded-full h-4 overflow-hidden">
+            <div
+              className={`${phaseInfo.bgColor} h-4 rounded-full transition-all duration-1000 ease-out`}
+              style={{ width: `${phaseInfo.progress}%` }}
+              aria-valuenow={phaseInfo.progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              role="progressbar"
+            />
+          </div>
+          <p className="text-xs text-space-light/60 mt-1">{phaseInfo.description}</p>
+        </div>
+
+        {/* Active Sunspots Count */}
+        <div>
           <div className="flex justify-between items-baseline mb-1">
             <label className="text-sm font-medium text-space-light/80">
-              Sunspot-Footpoint Proximity Chance
+              Active Sunspots
             </label>
-            <span className="text-sm font-semibold tabular-nums text-accent-cyan">
-              {(sunspotProbability * 100).toFixed(2)}%
+            <span className="text-lg font-bold tabular-nums text-accent-cyan">
+              {activeSunspotCount}
             </span>
           </div>
           <div className="w-full bg-space-dark/70 rounded-full h-4 overflow-hidden">
             <div
               className="bg-accent-cyan h-4 rounded-full transition-all duration-300 ease-out"
+              style={{ width: `${Math.min((activeSunspotCount / 10) * 100, 100)}%` }}
+              aria-valuenow={activeSunspotCount}
+              aria-valuemin={0}
+              aria-valuemax={10}
+              role="progressbar"
+            />
+          </div>
+          <p className="text-xs text-space-light/60 mt-1">Real-time count of visible sunspots on solar surface.</p>
+        </div>
+
+        {/* Sunspot Formation Probability */}
+        <div>
+          <div className="flex justify-between items-baseline mb-1">
+            <label className="text-sm font-medium text-space-light/80">
+              Sunspot Formation Rate
+            </label>
+            <span className="text-sm font-semibold tabular-nums text-accent-magenta">
+              {(sunspotProbability * 100).toFixed(2)}%
+            </span>
+          </div>
+          <div className="w-full bg-space-dark/70 rounded-full h-4 overflow-hidden">
+            <div
+              className="bg-accent-magenta h-4 rounded-full transition-all duration-300 ease-out"
               style={{ width: `${Math.min(probPercentage, 100)}%` }}
               aria-valuenow={probPercentage}
               aria-valuemin={0}
@@ -147,21 +251,21 @@ export const AnalyticsGraph: React.FC = () => {
             />
           </div>
           <p className="text-xs text-space-light/60 mt-1">Increases with probe proximity to the Sun.</p>
-        </div> */}
+        </div>
 
         {/* Footpoint-Sunspot Proximity */}
-{/*         <div>
+        <div>
            <div className="flex justify-between items-baseline mb-1">
             <label className="text-sm font-medium text-space-light/80">
               Footpoint Proximity
             </label>
-            <span className="text-sm font-semibold tabular-nums text-accent-magenta">
+            <span className="text-sm font-semibold tabular-nums text-accent-cyan">
               {distanceKm !== null ? `${(distanceKm / 1000).toFixed(0)}k km` : 'N/A'}
             </span>
           </div>
           <div className="w-full bg-space-dark/70 rounded-full h-4 overflow-hidden">
              <div
-              className={`bg-accent-magenta h-4 rounded-full transition-all duration-300 ease-out ${distanceKm === null ? 'opacity-30' : ''}`}
+              className={`bg-gradient-to-r from-accent-cyan to-accent-magenta h-4 rounded-full transition-all duration-300 ease-out ${distanceKm === null ? 'opacity-30' : ''}`}
               style={{ width: `${distanceKm === null ? 0 : proximityPercentage}%` }}
               aria-valuenow={proximityPercentage}
               aria-valuemin={0}
@@ -171,11 +275,14 @@ export const AnalyticsGraph: React.FC = () => {
           </div>
           <p className="text-xs text-space-light/60 mt-1">Measures magnetic footpoint to nearest sunspot.</p>
         </div>
-      </div> */}
+      </div>
 
       <div className="mt-4 pt-4 border-t border-slate-700/80">
         <h3 className="text-base font-bold text-accent-cyan mb-2 text-center font-heading">Perihelion vs Time (Orbit)</h3>
         {renderPerihelionVsTimeChart()}
+        <p className="text-xs text-space-light/50 mt-2 text-center">
+          Solar cycle: ~4 min simulated (real: ~11 years)
+        </p>
       </div>
     </div>
   );

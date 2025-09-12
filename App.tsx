@@ -223,6 +223,7 @@ const createInitialSun = (): CelestialBodyData => ({
 
 
 const App: React.FC = () => {
+  const setCurrentTimeScale = useSimulationStore(state => state.setCurrentTimeScale);
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   const [isReady, setIsReady] = useState(false);
 
@@ -252,6 +253,18 @@ const App: React.FC = () => {
   const [showOrbitPaths, setShowOrbitPaths] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [timeScale, setTimeScale] = useState(1); // days per second
+  
+  // Custom time scale handler that updates both local state and store
+  const handleTimeScaleChange = useCallback((newTimeScale: number) => {
+    setTimeScale(newTimeScale);
+    setCurrentTimeScale(newTimeScale);
+  }, [setCurrentTimeScale]);
+
+  // Initialize store with current time scale
+  useEffect(() => {
+    setCurrentTimeScale(timeScale);
+  }, [setCurrentTimeScale, timeScale]);
+
   const [simulationKey, setSimulationKey] = useState(0); // Used to force-remount Simulation
   const [cameraType, setCameraType] = useState<'default' | 'earth' | 'earth-ground' | 'parker-probe' | 'venus-orbit' | 'mercury-orbit'>('default');
   const [includeParkerProbe, setIncludeParkerProbe] = useState(true);
@@ -477,7 +490,7 @@ const App: React.FC = () => {
         onPlayPause={handlePlayPause}
         onReset={handleReset}
         timeScale={timeScale}
-        onTimeScaleChange={setTimeScale}
+        onTimeScaleChange={handleTimeScaleChange}
         showOrbitPaths={showOrbitPaths}
         onShowOrbitPathsChange={setShowOrbitPaths}
         cameraType={cameraType}
