@@ -125,7 +125,7 @@ export const AnalyticsGraph: React.FC = () => {
     <div className="absolute top-0 right-0 z-20 bg-space-blue/80 backdrop-blur-xs p-4 rounded-lg shadow-2xl w-72 text-space-light font-sans border border-slate-700/80">
       <h2 className="text-lg font-bold text-accent-cyan mb-3 text-center font-heading">Parker Probe Analytics</h2>
       
-      <div className="space-y-4">
+{/*       <div className="space-y-4"> */}
         {/* Sunspot-Footpoint overlapping chance */}
 {/*         <div>
           <div className="flex justify-between items-baseline mb-1">
