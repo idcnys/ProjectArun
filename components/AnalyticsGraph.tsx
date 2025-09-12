@@ -123,11 +123,11 @@ export const AnalyticsGraph: React.FC = () => {
 
   return (
     <div className="absolute top-0 right-0 z-20 bg-space-blue/80 backdrop-blur-xs p-4 rounded-lg shadow-2xl w-72 text-space-light font-sans border border-slate-700/80">
-      <h2 className="text-lg font-bold text-accent-cyan mb-3 text-center font-heading">Solar Analytics</h2>
+      <h2 className="text-lg font-bold text-accent-cyan mb-3 text-center font-heading">Parker Probe Analytics</h2>
       
       <div className="space-y-4">
         {/* Sunspot-Footpoint overlapping chance */}
-        <div>
+{/*         <div>
           <div className="flex justify-between items-baseline mb-1">
             <label className="text-sm font-medium text-space-light/80">
               Sunspot-Footpoint Proximity Chance
@@ -147,10 +147,10 @@ export const AnalyticsGraph: React.FC = () => {
             />
           </div>
           <p className="text-xs text-space-light/60 mt-1">Increases with probe proximity to the Sun.</p>
-        </div>
+        </div> */}
 
         {/* Footpoint-Sunspot Proximity */}
-        <div>
+{/*         <div>
            <div className="flex justify-between items-baseline mb-1">
             <label className="text-sm font-medium text-space-light/80">
               Footpoint Proximity
@@ -171,7 +171,7 @@ export const AnalyticsGraph: React.FC = () => {
           </div>
           <p className="text-xs text-space-light/60 mt-1">Measures magnetic footpoint to nearest sunspot.</p>
         </div>
-      </div>
+      </div> */}
 
       <div className="mt-4 pt-4 border-t border-slate-700/80">
         <h3 className="text-base font-bold text-accent-cyan mb-2 text-center font-heading">Perihelion vs Time (Orbit)</h3>
