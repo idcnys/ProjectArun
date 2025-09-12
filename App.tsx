@@ -9,6 +9,10 @@ import { AnalyticsGraph } from './components/AnalyticsGraph';
 import { G, AU_IN_SIMULATION_UNITS, SIMULATION_DISTANCE_SCALE } from './constants';
 import { useSimulationStore } from './simulationStore';
 import { LoadingScreen } from './components/LoadingScreen';
+<<<<<<< HEAD
+=======
+import { Link } from 'react-router-dom';
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
 
 
 // --- INITIAL BODY PARAMETERS ---
@@ -223,7 +227,10 @@ const createInitialSun = (): CelestialBodyData => ({
 
 
 const App: React.FC = () => {
+<<<<<<< HEAD
   const setCurrentTimeScale = useSimulationStore(state => state.setCurrentTimeScale);
+=======
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   const [isReady, setIsReady] = useState(false);
 
@@ -253,6 +260,7 @@ const App: React.FC = () => {
   const [showOrbitPaths, setShowOrbitPaths] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [timeScale, setTimeScale] = useState(1); // days per second
+<<<<<<< HEAD
   
   // Custom time scale handler that updates both local state and store
   const handleTimeScaleChange = useCallback((newTimeScale: number) => {
@@ -265,6 +273,8 @@ const App: React.FC = () => {
     setCurrentTimeScale(timeScale);
   }, [setCurrentTimeScale, timeScale]);
 
+=======
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
   const [simulationKey, setSimulationKey] = useState(0); // Used to force-remount Simulation
   const [cameraType, setCameraType] = useState<'default' | 'earth' | 'earth-ground' | 'parker-probe' | 'venus-orbit' | 'mercury-orbit'>('default');
   const [includeParkerProbe, setIncludeParkerProbe] = useState(true);
@@ -479,8 +489,13 @@ const App: React.FC = () => {
 
   return (
   <div className="relative h-screen w-screen bg-space-dark text-space-light font-sans overflow-hidden" onContextMenu={handleContextMenu} style={{ userSelect: 'none' }}>
+<<<<<<< HEAD
       <h1 className="pointer-events-none absolute top-4 left-1/2 -translate-x-1/2 z-30 text-2xl font-bold text-space-light/80 tracking-wider font-heading" style={{ textShadow: '0 0 10px rgba(34, 211, 238, 0.5)' }}>
         TEAM ARUN
+=======
+      <h1 className="cursor-pointer absolute top-4 left-1/2 -translate-x-1/2 z-30 text-2xl font-bold text-space-light/80 tracking-wider font-heading" style={{ textShadow: '0 0 10px rgba(34, 211, 238, 0.5)' }}>
+        <Link to="/team">TEAM ARUN</Link>
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
       </h1>
       {contextMenu && (
         <ContextMenu x={contextMenu.x} y={contextMenu.y} onClose={handleCloseContextMenu} />
@@ -490,7 +505,11 @@ const App: React.FC = () => {
         onPlayPause={handlePlayPause}
         onReset={handleReset}
         timeScale={timeScale}
+<<<<<<< HEAD
         onTimeScaleChange={handleTimeScaleChange}
+=======
+        onTimeScaleChange={setTimeScale}
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
         showOrbitPaths={showOrbitPaths}
         onShowOrbitPathsChange={setShowOrbitPaths}
         cameraType={cameraType}

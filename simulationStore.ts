@@ -11,9 +11,12 @@ const initialState = {
     probeSunDistance: 0,
     probeFootpointDistanceToSunspot: null,
     sunspotProbability: 0,
+<<<<<<< HEAD
     activeSunspotCount: 0,
     solarPhase: 'Solar Minimum' as const,
     currentTimeScale: 1,
+=======
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     orbitalPerihelionData: [],
 };
 
@@ -25,9 +28,12 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
     setProbeSunDistance: (distance: number) => set({ probeSunDistance: distance }),
     setProbeFootpointDistanceToSunspot: (distance: number | null) => set({ probeFootpointDistanceToSunspot: distance }),
     setSunspotProbability: (probability: number) => set({ sunspotProbability: probability }),
+<<<<<<< HEAD
     setActiveSunspotCount: (count: number) => set({ activeSunspotCount: count }),
     setSolarPhase: (phase: 'Solar Minimum' | 'Rising Activity' | 'Solar Maximum' | 'Declining Activity') => set({ solarPhase: phase }),
     setCurrentTimeScale: (scale: number) => set({ currentTimeScale: scale }),
+=======
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     addOrbitalPerihelionData: (data: OrbitalPerihelionData) => set(state => ({
         orbitalPerihelionData: [...state.orbitalPerihelionData, data]
     })),

@@ -36,9 +36,12 @@ export interface SimulationState {
     probeSunDistance: number;
     probeFootpointDistanceToSunspot: number | null;
     sunspotProbability: number;
+<<<<<<< HEAD
     activeSunspotCount: number;
     solarPhase: 'Solar Minimum' | 'Rising Activity' | 'Solar Maximum' | 'Declining Activity';
     currentTimeScale: number;
+=======
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     orbitalPerihelionData: OrbitalPerihelionData[];
 
     setSimulationDate: (date: Date) => void;
@@ -47,9 +50,12 @@ export interface SimulationState {
     setProbeSunDistance: (distance: number) => void;
     setProbeFootpointDistanceToSunspot: (distance: number | null) => void;
     setSunspotProbability: (probability: number) => void;
+<<<<<<< HEAD
     setActiveSunspotCount: (count: number) => void;
     setSolarPhase: (phase: 'Solar Minimum' | 'Rising Activity' | 'Solar Maximum' | 'Declining Activity') => void;
     setCurrentTimeScale: (scale: number) => void;
+=======
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
     addOrbitalPerihelionData: (data: OrbitalPerihelionData) => void;
     resetAnalyticsData: () => void;
 }

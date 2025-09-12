@@ -9,12 +9,16 @@ export const AnalyticsGraph: React.FC = () => {
     const {
         sunspotProbability,
         footpointDistance,
+<<<<<<< HEAD
         activeSunspotCount,
         solarPhase,
+=======
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
         orbitalPerihelionData
     } = useThrottledStore(state => ({
         sunspotProbability: state.sunspotProbability,
         footpointDistance: state.probeFootpointDistanceToSunspot,
+<<<<<<< HEAD
         activeSunspotCount: state.activeSunspotCount,
         solarPhase: state.solarPhase,
         orbitalPerihelionData: state.orbitalPerihelionData,
@@ -71,6 +75,11 @@ export const AnalyticsGraph: React.FC = () => {
   };
 
   const phaseInfo = getPhaseInfo(solarPhase);
+=======
+        orbitalPerihelionData: state.orbitalPerihelionData,
+    }), 100);
+
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
   const probPercentage = (sunspotProbability / MAX_PROBABILITY_FOR_UI) * 100;
 
   const distanceKm = footpointDistance !== null ? footpointDistance * SIMULATION_DISTANCE_SCALE : null;
@@ -180,6 +189,7 @@ export const AnalyticsGraph: React.FC = () => {
     <div className="absolute top-0 right-0 z-20 bg-space-blue/80 backdrop-blur-xs p-4 rounded-lg shadow-2xl w-72 text-space-light font-sans border border-slate-700/80">
       <h2 className="text-lg font-bold text-accent-cyan mb-3 text-center font-heading">Parker Probe Analytics</h2>
       
+<<<<<<< HEAD
       <div className="space-y-4">
         {/* Solar Phase Indicator */}
         <div>
@@ -237,12 +247,26 @@ export const AnalyticsGraph: React.FC = () => {
               Sunspot Formation Rate
             </label>
             <span className="text-sm font-semibold tabular-nums text-accent-magenta">
+=======
+{/*       <div className="space-y-4"> */}
+        {/* Sunspot-Footpoint overlapping chance */}
+{/*         <div>
+          <div className="flex justify-between items-baseline mb-1">
+            <label className="text-sm font-medium text-space-light/80">
+              Sunspot-Footpoint Proximity Chance
+            </label>
+            <span className="text-sm font-semibold tabular-nums text-accent-cyan">
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
               {(sunspotProbability * 100).toFixed(2)}%
             </span>
           </div>
           <div className="w-full bg-space-dark/70 rounded-full h-4 overflow-hidden">
             <div
+<<<<<<< HEAD
               className="bg-accent-magenta h-4 rounded-full transition-all duration-300 ease-out"
+=======
+              className="bg-accent-cyan h-4 rounded-full transition-all duration-300 ease-out"
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
               style={{ width: `${Math.min(probPercentage, 100)}%` }}
               aria-valuenow={probPercentage}
               aria-valuemin={0}
@@ -251,21 +275,36 @@ export const AnalyticsGraph: React.FC = () => {
             />
           </div>
           <p className="text-xs text-space-light/60 mt-1">Increases with probe proximity to the Sun.</p>
+<<<<<<< HEAD
         </div>
 
         {/* Footpoint-Sunspot Proximity */}
         <div>
+=======
+        </div> */}
+
+        {/* Footpoint-Sunspot Proximity */}
+{/*         <div>
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
            <div className="flex justify-between items-baseline mb-1">
             <label className="text-sm font-medium text-space-light/80">
               Footpoint Proximity
             </label>
+<<<<<<< HEAD
             <span className="text-sm font-semibold tabular-nums text-accent-cyan">
+=======
+            <span className="text-sm font-semibold tabular-nums text-accent-magenta">
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
               {distanceKm !== null ? `${(distanceKm / 1000).toFixed(0)}k km` : 'N/A'}
             </span>
           </div>
           <div className="w-full bg-space-dark/70 rounded-full h-4 overflow-hidden">
              <div
+<<<<<<< HEAD
               className={`bg-gradient-to-r from-accent-cyan to-accent-magenta h-4 rounded-full transition-all duration-300 ease-out ${distanceKm === null ? 'opacity-30' : ''}`}
+=======
+              className={`bg-accent-magenta h-4 rounded-full transition-all duration-300 ease-out ${distanceKm === null ? 'opacity-30' : ''}`}
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
               style={{ width: `${distanceKm === null ? 0 : proximityPercentage}%` }}
               aria-valuenow={proximityPercentage}
               aria-valuemin={0}
@@ -275,14 +314,21 @@ export const AnalyticsGraph: React.FC = () => {
           </div>
           <p className="text-xs text-space-light/60 mt-1">Measures magnetic footpoint to nearest sunspot.</p>
         </div>
+<<<<<<< HEAD
       </div>
+=======
+      </div> */}
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
 
       <div className="mt-4 pt-4 border-t border-slate-700/80">
         <h3 className="text-base font-bold text-accent-cyan mb-2 text-center font-heading">Perihelion vs Time (Orbit)</h3>
         {renderPerihelionVsTimeChart()}
+<<<<<<< HEAD
         <p className="text-xs text-space-light/50 mt-2 text-center">
           Solar cycle: ~4 min simulated (real: ~11 years)
         </p>
+=======
+>>>>>>> f4d78b85de1bbc78bc8de8ca7a0ea4e5b3eca188
       </div>
     </div>
   );
