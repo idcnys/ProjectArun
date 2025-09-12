@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface ContextMenuProps {
   x: number;
@@ -7,8 +8,10 @@ interface ContextMenuProps {
 }
 
 const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onClose }) => {
+  const navigate = useNavigate();
+
   const handleNavigate = (path: string) => {
-    window.location.href = path;
+    navigate(path);
     onClose();
   };
 
@@ -30,14 +33,18 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onClose }) => {
       style={{ top: y, left: x, minWidth: 180 }}
       onContextMenu={e => e.preventDefault()}
     >
-      <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('/project')}>
-        Project Details
+      <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('/')}>
+        🏠 Home
       </button>
-      <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('/members')}>
-        Team Members
+      <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('/about')}>
+        📋 Project Description
       </button>
+      <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('/team')}>
+        👥 Team Members
+      </button>
+      <hr className="my-2 border-gray-600" />
       <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={handleShare}>
-        Share
+        🔗 Share
       </button>
     </div>
   );
