@@ -36,8 +36,11 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onClose }) => {
       <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('/')}>
         🏠 Home
       </button>
-      <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('/about')}>
-        📋 Project Description
+     <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => window.open("https://github.com/idcnys/ProjectArun/")}>
+        🔗 Github Repository
+      </button>
+      <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('https://colab.research.google.com/drive/1aG_yOu6RYdN6T1bPLp9ZDupb0vwmp-LK?usp=sharing')}>
+        🔗 Google Colab Link
       </button>
       <button className="block w-full text-left py-2 hover:bg-cyan-700 rounded" onClick={() => handleNavigate('/team')}>
         👥 Team Members
@@ -51,3 +54,4 @@ const ContextMenu: React.FC<ContextMenuProps> = ({ x, y, onClose }) => {
 };
 
 export default ContextMenu;
+
