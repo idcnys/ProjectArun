@@ -6,12 +6,8 @@ interface LoadingScreenProps {
 }
 
 const dialogue = [
-  { speaker: "Shuvo", role: "Systems Check Officer", line: "All systems functioning correctly — we are ready to leave the ground!" },
-  { speaker: "Arnob", role: "Launch Announcer", line: "Crew ARUN, prepare for launch. We leave Earth's embrace shortly!" },
-  { speaker: "Nilay", role: "Telemetry & Diagnostics", line: "All system parameters are normal. No errors detected. Mission is go." },
-  { speaker: "Rabbi", role: "Propulsion & Fuel Check", line: "Fuel levels confirmed. Engines checked — status: GREEN." },
-  { speaker: "Amio", role: "Thrusters & Navigation", line: "Thrusters are performing beautifully. Trajectory locked. Diving into space in T-minus…" },
-  { speaker: "Bitto", role: "Project Lead / Commander", line: "This is it, Team ARUN. Hold steady — ignition sequence starts now… 3… 2… 1… LIFT OFF!" },
+  { speaker: "System", role: "Manual", line: "Right Click to see more options" },
+  { speaker: "System", role: "Manual", line: "Change Camera Viewports for more details" },
 ];
 
 const Typewriter: React.FC<{ text: string; onComplete: () => void }> = ({ text, onComplete }) => {
