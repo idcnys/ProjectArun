@@ -1,4 +1,11 @@
-# Parker Solar Probe Simulation - Technical Documentation
+## Project Details 
+
+- [Project Overview Video](https://youtu.be/ik6mfJ-VxAM?si=fuRNzEBBtxdw88YI)
+- [Google Colab Notebook](https://colab.research.google.com/drive/1aG_yOu6RYdN6T1bPLp9ZDupb0vwmp-LK?usp=sharing)
+
+
+
+## Parker Solar Probe Simulation - Technical Documentation
 
 ## Overview
 
