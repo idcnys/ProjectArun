@@ -5,7 +5,7 @@
 
 
 
-## Parker Solar Probe Simulation - Technical Documentation
+## Simulation Documentation
 
 ## Overview
 
