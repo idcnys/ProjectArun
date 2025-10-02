@@ -40,20 +40,13 @@ const teamMembers: TeamMember[] = [
     imageUrl: '/team/alex-johnson.jpg'
   },
   
-  {
+ {
     id: 5,
-    name: 'Nilay Paul',
-    role: 'Resource Management',
+    name: 'Jannatul Mawa Tanha',
+    role: 'Communication',
     bio: 'CSE (first year), Rajshahi University of Engineering & Technology',
     imageUrl: '/team/jane-smith.jpg'
   },
-  {
-    id: 6,
-    name: 'Arnob Benedict Tudu',
-    role: 'Resource management',
-    bio: 'CSE (first year), Rajshahi University of Engineering & Technology',
-    imageUrl: '/team/alex-johnson.jpg'
-  }
 ];
 
 const TeamMembers: React.FC = () => {
