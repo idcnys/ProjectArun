@@ -47,15 +47,18 @@ To address this challenge, our project focuses on analyzing large-area sunspots 
 <img width="500" alt="Image" src="https://github.com/user-attachments/assets/a31cd1ce-b1b3-4b18-8a53-a4887432287d" />
 
 6. **Duration vs. Area analysis**  
-   - We plotted sunspot duration against area, treating area as the independent variable. This analysis helped us understand whether larger sunspots tend to last longer, which is important for assessing potential solar storm risks.  
+   - We plotted sunspot duration against area, treating area as the independent variable. This analysis helped us understand whether larger sunspots tend to last longer, which is important for assessing potential solar storm risks.
+     
 <img width="500" alt="Image" src="https://github.com/user-attachments/assets/1d3fa9d7-8b2a-4b4e-a225-6f63ebfa36c5" />
 
 7. **Time vs. Longitude scatter plots**  
-   - We created scatter plots of time vs. longitude with sunspot area highlighted, aiming to find patterns. Since no clear pattern emerged, we took the next step.  
+   - We created scatter plots of time vs. longitude with sunspot area highlighted, aiming to find patterns. Since no clear pattern emerged, we took the next step.
+     
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/bf6eeeae-6391-4dc9-a4ab-27b2de6a456a" />
 
 ## Neural Network Modeling  
 We trained a neural network with **(time, latitude, area) → longitude** as inputs, to predict the coordinates of sunspots in upcoming cycles, aiming for a robust pattern detection method.  
+
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/515dd903-5f7d-4a50-badf-e73f90ea5a47" />
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/42ace5d3-3516-48a4-86a8-d7be4c3e6ffe" />
 
