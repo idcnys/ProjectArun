@@ -2,8 +2,12 @@
 - [Live Simulation (website)](https://team-arun.vercel.app)
 
 ## Part 01 - Data Analysis Documentation
+**All files are available in `Data_Analysis` Folder**
+
+- [Google Colab Notebook ](https://colab.research.google.com/drive/1aG_yOu6RYdN6T1bPLp9ZDupb0vwmp-LK?usp=sharing)
+
 - [Data Analysis Documentation (Google Docs)](https://docs.google.com/document/d/1p3VQTc0VSENdDAMYmLfBSFhfO-IDuiV3t7XIa7PNYxE/edit?usp=sharing)
-- [Google Colab Notebook (Data Analysis)](https://colab.research.google.com/drive/1aG_yOu6RYdN6T1bPLp9ZDupb0vwmp-LK?usp=sharing)
+  
 
 
 
