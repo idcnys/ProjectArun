@@ -371,16 +371,4 @@ where:
 3. "Einstein's Theory of Relativity" by Born, Max
 4. NASA JPL Small-Body Database
 5. "Numerical Recipes in C" by Press, Teukolsky, Vetterling, and Flannery
-
-## Contributing
-
-When modifying physics parameters, ensure:
-1. Dimensional analysis is correct
-2. Scaling factors are consistently applied
-3. Physical constants maintain proper ratios
-4. Simulation stability is preserved
-5. Visual accuracy is maintained
-
 ---
-
-*This simulation is designed for educational purposes and demonstrates fundamental principles of orbital mechanics and general relativity. While simplified, it maintains essential physical relationships and provides accurate qualitative behavior.*
