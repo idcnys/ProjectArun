@@ -6,6 +6,11 @@
 
 - [Google Colab Notebook ](https://colab.research.google.com/drive/1aG_yOu6RYdN6T1bPLp9ZDupb0vwmp-LK?usp=sharing)
 
+Dataset was created by scraping [NASA ](https://solarscience.msfc.nasa.gov/greenwch.shtml) & [Debrecen Photoheliographic Data ](http://fenyi.solarobs.epss.hun-ren.hu/DPD/index.html?utm_source=chatgpt.com) & [USET images ](https://www.sidc.be/uset/) & [Royal Observatory Belgium ](https://www.sidc.be/SILSO/datafiles)
+
+(Multiple data sources were utilized to minimize noise and improve data quality and reliability)
+- [Dataset ](https://github.com/idcnys/ProjectArun/tree/main/Data_Analysis/gpr_1874_1976_corrected.csv)
+
 ## Problem Connection  
 Solar storms pose a significant threat to modern technology, including satellites, GPS navigation, aviation systems, power grids, and everyday electronic devices. One of the strongest precursors to solar storms is the appearance of large-area sunspots on the surface of the Sun.  
 
