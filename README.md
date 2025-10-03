@@ -53,7 +53,7 @@ To address this challenge, our project focuses on analyzing large-area sunspots 
 
 7. **Time vs. Longitude scatter plots**  
    - We created scatter plots of time vs. longitude with sunspot area highlighted, aiming to find patterns. Since no clear pattern emerged, we took the next step.
-     
+
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/bf6eeeae-6391-4dc9-a4ab-27b2de6a456a" />
 
 ## Neural Network Modeling  
@@ -61,6 +61,16 @@ We trained a neural network with **(time, latitude, area) → longitude** as inp
 
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/515dd903-5f7d-4a50-badf-e73f90ea5a47" />
 <img width="500" alt="image" src="https://github.com/user-attachments/assets/42ace5d3-3516-48a4-86a8-d7be4c3e6ffe" />
+
+8. **Overlapped Coordinates**
+   - In this graph, the coordinates overlapped, and we tried to find the most dense area of the Sun where we have evidence of repetition of big sunspots.
+
+<img width="500" alt="image" src="/Data_Analysis/Images/overlapped.png" />
+<img width="500" alt="image" src="/Data_Analysis/Images/coordinate_heatmap.png" />
+
+**From historical analysis plotting most dense region where big sunspots appeared in the middle of each cycle**
+
+<img width="500" alt="image" src="/Data_Analysis/Images/3d_sun.png" />
 
 ## Outcome  
 By identifying when, where, and how long large sunspots occur, this project contributes to:  
