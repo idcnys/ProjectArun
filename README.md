@@ -72,6 +72,7 @@ By identifying when, where, and how long large sunspots occur, this project cont
 
 
 ## Part 02 - Simulation Documentation
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/19354c6d-3eaf-415f-94c3-1b8dee233d94" />
 
 ## Overview
 
