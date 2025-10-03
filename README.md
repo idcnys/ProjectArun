@@ -372,3 +372,6 @@ where:
 4. NASA JPL Small-Body Database
 5. "Numerical Recipes in C" by Press, Teukolsky, Vetterling, and Flannery
 ---
+
+<img width="500" alt="Image" src="https://github.com/user-attachments/assets/1d79aed1-e072-4264-a99c-7955b4de358e" />
+
