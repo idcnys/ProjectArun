@@ -24,25 +24,34 @@ To address this challenge, our project focuses on analyzing large-area sunspots 
 
 ## Visualizations and Methods  
 1. **Butterfly diagram (1874–1976)**  
-   - We first plotted a butterfly diagram covering more than a century of sunspot data to observe general latitudinal migration patterns across solar cycles.  
+   - We first plotted a butterfly diagram covering more than a century of sunspot data to observe general latitudinal migration patterns across solar cycles.
 
+    <img width="500" alt="Image" src="https://github.com/user-attachments/assets/12f43a83-1bad-4234-9e69-995f5f31c96d" />
 2. **Zooming into specific cycles**  
-   - To focus on large sunspots, we zoomed into individual cycles and used color gradients to highlight sunspot area — with darker colors representing larger areas.  
+   - To focus on large sunspots, we zoomed into individual cycles and used color gradients to highlight sunspot area — with darker colors representing larger areas.
+
+<img width="500" alt="Image" src="https://github.com/user-attachments/assets/1508091b-97fd-4d23-88e0-261493ba9529" />
 
 3. **Overlapping cycles**  
-   - We then plotted a common solar cycle by overlapping all cycles to identify recurring large sunspot events, allowing us to pinpoint common points for future analysis.  
+   - We then plotted a common solar cycle by overlapping all cycles to identify recurring large sunspot events, allowing us to pinpoint common points for future analysis.
+ 
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/b81b8da8-7684-44e7-8d9a-0947d29ffc70" />
 
 4. **Heatmap of probability and density**  
    - We plotted a heatmap showing the probability and density of forming large sunspots. This visualization allowed us to identify regions in time and space where big sunspots are more likely to appear.  
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/a2f7a07e-8f1b-4fa2-8c52-4c518c5a7d4d" />
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/0e976961-bd20-4477-bc68-74f31f706a22" />
 
 5. **Bar graphs per cycle**  
    - For each solar cycle, we plotted bar graphs to determine when in the cycle larger sunspots are more likely to appear and analyzed these temporal patterns.  
+<img width="500" alt="Image" src="https://github.com/user-attachments/assets/a31cd1ce-b1b3-4b18-8a53-a4887432287d" />
 
 6. **Duration vs. Area analysis**  
    - We plotted sunspot duration against area, treating area as the independent variable. This analysis helped us understand whether larger sunspots tend to last longer, which is important for assessing potential solar storm risks.  
-
+<img width="500" alt="Image" src="https://github.com/user-attachments/assets/1d3fa9d7-8b2a-4b4e-a225-6f63ebfa36c5" />
 7. **Time vs. Longitude scatter plots**  
    - We created scatter plots of time vs. longitude with sunspot area highlighted, aiming to find patterns. Since no clear pattern emerged, we took the next step.  
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/bf6eeeae-6391-4dc9-a4ab-27b2de6a456a" />
 
 ## Neural Network Modeling  
 We trained a neural network with **(time, latitude, area) → longitude** as inputs, to predict the coordinates of sunspots in upcoming cycles, aiming for a robust pattern detection method.  
